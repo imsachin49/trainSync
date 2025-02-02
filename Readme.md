@@ -14,6 +14,9 @@ This project is a **Railway Management System API** similar to IRCTC, built usin
 ### 1️⃣ Clone the Repository
 ```sh
 git clone https://github.com/imsachin49/trainSync.git
+```
+cd into the project directory
+```sh
 cd trainSync
 ```
 
