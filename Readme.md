@@ -60,7 +60,7 @@ npm start
 ## 🔐 Authentication & Authorization
 - **User Authentication:** Users must log in to get a JWT token.  
 - **Admin Protection:** Admin routes require an API key in the headers.  
-- *8Booking Security:** Users need a valid JWT token to book or view bookings.  
+- **Booking Security:** Users need a valid JWT token to book or view bookings.  
 
 ## 📝 API Documentation
 
