@@ -49,12 +49,6 @@ npm start
 
 #### **Health Check**
 - **GET `/health`**: Check if the server is running.
-  - **Response**:
-    ```json
-    {
-      "message": "Hello Sir! I am alive"
-    }
-    ```
 
 ---
 
