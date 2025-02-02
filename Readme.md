@@ -142,7 +142,7 @@ npm start
 
 ---
 
-### **Summary  of API Endpoints**
+### ✅**Summary  of API Endpoints**
 #### **Auth Routes**
 - **POST `/register`**: Register a new user. Requires `username`, `password`, and `email`.
 - **POST `/login`**: Authenticate user and return a JWT token. Requires `username` and `password`.
