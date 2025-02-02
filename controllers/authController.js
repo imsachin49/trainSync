@@ -10,13 +10,14 @@ const register = asyncHandler(async (req, res) => {
     const { username, password, email } = req.body;
     
     // Check if user exists
-    const [existingUsers] = await db.query(
-      'SELECT * FROM users WHERE username = ? OR email = ?',
+    const result = await db.query(
+      'SELECT * FROM users WHERE username = $1 OR email = $2',
       [username, email]
     );
-    
+    const existingUsers = result.rows; 
+
     if (existingUsers.length > 0) {
-        throw new ApiError(400, 'Username or email already exists');
+      throw new ApiError(400, 'Username or email already exists');
     }
     
     // Hash password
@@ -24,30 +25,36 @@ const register = asyncHandler(async (req, res) => {
     
     // Create user
     await db.query(
-      'INSERT INTO users (username, password, email, role) VALUES (?, ?, ?, ?)',
+      'INSERT INTO users (username, password, email, role) VALUES ($1, $2, $3, $4)',
       [username, hashedPassword, email, 'user']
     );
 
     res.status(201).json(new ApiResponse(201, 'User registered successfully'));
   } catch (error) {
+    console.log(error);
     throw new ApiError(500, 'Error registering user');
   }
 });
 
+
 const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username,email, password } = req.body;
     
     // Get user
-    const [users] = await db.query(
-      'SELECT * FROM users WHERE username = ?',
-      [username]
+    const result = await db.query(
+      'SELECT * FROM users WHERE email = $1',
+      [email]
     );
+    console.log("111")
+    const users = result.rows;
     
+    console.log(222)
     if (users.length === 0) {
         throw new ApiError(401, 'Invalid credentials');
     }
     
+    console.log(333)
     const user = users[0];
     
     // Check password
@@ -63,7 +70,7 @@ const login = async (req, res) => {
       { expiresIn: '24h' }
     );
     
-    res.json({ token });
+    res.status(200).json(new ApiResponse(200, 'Logged in successfully', { token }));
   } catch (error) {
     throw new ApiError(500, 'Error logging in');
   }

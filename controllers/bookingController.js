@@ -4,45 +4,59 @@ const { ApiError } = require('../utils/ApiError');
 const { ApiResponse } = require('../utils/ApiResponse');
 
 const bookSeat = asyncHandler(async (req, res) => {
-  const connection = await db.getConnection();
+  console.log("heyy")
+  const connection = await db.connect();
   
+  console.log("uyoo")
   try {
-    await connection.beginTransaction();
+    await connection.query('BEGIN');
     
+    console.log("22222")
     const { trainId } = req.body;
     const userId = req.user.id;
     
+    console.log("33333")
     // Check seat availability with lock
-    const [trains] = await connection.query(
-      'SELECT * FROM trains WHERE id = ? AND available_seats > 0 FOR UPDATE',
+    const results = await connection.query(
+      'SELECT * FROM trains WHERE id = $1 AND available_seats > 0 FOR UPDATE',
       [trainId]
     );
+    console.log("44444")
+    const trains=results.rows;
     
+    console.log("55555")
     if (trains.length === 0) {
-      await connection.rollback();
+      // await connection.rollback();
+        await connection.query('ROLLBACK');
         throw new ApiError(400, 'No seats available');
     }
     
+    console.log("66666")
     // Create booking
-    const [booking] = await connection.query(
-      'INSERT INTO bookings (user_id, train_id, booking_date) VALUES (?, ?, NOW())',
-      [userId, trainId]
+    const result = await connection.query(
+      'INSERT INTO bookings (user_id, train_id, booking_date, status) VALUES ($1, $2, NOW(), $3) RETURNING *',
+    [userId, trainId, 'Booked']
     );
-    
+    console.log("77777")
+    const booking=result.rows;
+    console.log("booking",booking)
+
     // Update available seats
     await connection.query(
-      'UPDATE trains SET available_seats = available_seats - 1 WHERE id = ?',
+      'UPDATE trains SET available_seats = available_seats - 1 WHERE id = $1',
       [trainId]
-    );
+    );    
+    await connection.query('COMMIT');
     
-    await connection.commit();
-
-    res.json(new ApiResponse(201, 'Booking successful', { bookingId: booking.insertId }));
+    return res.json(new ApiResponse(200, 'Seat booked successfully', booking));
   } catch (error) {
-    await connection.rollback();
+    // await connection.rollback();
+    await connection.query('ROLLBACK');
+    console.log("error",error)
     res.status(500).json({ message: 'Error booking seat' });
   } finally {
-    connection.release();
+    // connection.release();
+    await connection.release();
   }
 });
 
@@ -82,7 +96,7 @@ const cancelBooking = asyncHandler(async (req, res) => {
         
         // Check booking
         const [bookings] = await connection.query(
-            'SELECT * FROM bookings WHERE id = ? AND user_id = ? FOR UPDATE',
+            'SELECT * FROM bookings WHERE id = $1 AND user_id = $1 FOR UPDATE',
             [bookingId, userId]
         );
         
@@ -93,13 +107,13 @@ const cancelBooking = asyncHandler(async (req, res) => {
         
         // Delete booking
         await connection.query(
-            'DELETE FROM bookings WHERE id = ?',
+            'DELETE FROM bookings WHERE id = $1',
             [bookingId]
         );
         
         // Update available seats
         await connection.query(
-            'UPDATE trains SET available_seats = available_seats + 1 WHERE id = ?',
+            'UPDATE trains SET available_seats = available_seats + 1 WHERE id = $1',
             [bookings[0].train_id]
         );
         

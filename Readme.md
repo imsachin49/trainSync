@@ -30,8 +30,8 @@ This project is a **Railway Management System API** similar to IRCTC, built usin
 
 ### 1️⃣ Clone the Repository
 ```sh
-git clone https://github.com/imsachin49/locoApi.git
-cd locoapi
+git clone https://github.com/imsachin49/trainSync.git
+cd trainSync
 ```
 
 ### 2️⃣ Install Dependencies
@@ -113,6 +113,8 @@ npm start
     "totalSeats": 100             // Required (Must be > 0)
   }
   ```
+- **Headers**:
+  - `x-api-key`: Admin API Key (Required)
 
 #### **GET `/`**
 - **Description**: Fetch all trains.
@@ -127,6 +129,8 @@ npm start
     "totalSeats": 120             // Required (Must be > 0)
   }
   ```
+- **Headers**:
+  - `x-api-key`: Admin API Key (Required)
 
 #### **GET `/availability`**
 - **Description**: Check seat availability between `source` and `destination`.
