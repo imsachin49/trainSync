@@ -42,14 +42,11 @@ npm install
 ### 3️⃣ Configure Environment Variables
 Create a `.env` file in the root directory and add the following environment variables:
 ```sh
-DB_USER=
-DB_PASSWORD=
-DB_NAME=
-DB_HOST=
-DB_PORT=
 JWT_SECRET=
 ADMIN_API_KEY=
 PORT=
+DATABASE_URL= 
+// PostgreSQL Connection URL: postgres://username:password@host:port/database (OR use one from NeonDB)
 ```
 
 ### 4️⃣ Start the Server
