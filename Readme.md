@@ -9,23 +9,6 @@ This project is a **Railway Management System API** similar to IRCTC, built usin
 - **Middleware:** Express Middleware
 - **Security:** API Key Protection for Admin Routes
 
-## 📌 Features
-
-### 🔹 User Authentication
-- Register a new user (`/api/auth/register`)
-- Login user (`/api/auth/login`)
-
-### 🔹 Admin Operations (Protected by API Key)
-- Add a new train (`/api/trains` - `POST`)
-- Update train seat count (`/api/trains/:trainId/seats` - `PUT`)
-
-### 🔹 User Operations (JWT Token Required)
-- Get all trains (`/api/trains` - `GET`)
-- Get seat availability (`/api/trains/availability` - `GET`)
-- Book a seat (`/api/bookings` - `POST`)
-- Get booking details (`/api/bookings/:bookingId` - `GET`)
-- Cancel booking (`/api/bookings/:bookingId` - `DELETE`)
-
 ## 🚀 How to run locally?
 
 ### 1️⃣ Clone the Repository
