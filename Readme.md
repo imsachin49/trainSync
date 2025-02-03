@@ -140,8 +140,8 @@ npm start
 - **Params**:
   - `bookingId` (Required): ID of the booking to cancel.
 
+<!-- 
 ---
-
 ## **Summary  of API Endpoints**
 #### **Auth Routes**
 - **POST `/register`**: Register a new user. Requires `username`, `password`, and `email`.
@@ -156,4 +156,4 @@ npm start
 - **POST `/`**: Add a new train (Admin only). Requires `name`, `source`, `destination`, and `totalSeats`.
 - **GET `/`**: Fetch all trains. Requires a valid JWT token.
 - **PUT `/:trainId/seats`**: Update total seats for a train (Admin only). Requires `trainId` and `totalSeats`.
-- **GET `/availability`**: Check seat availability between `source` and `destination`. Requires valid JWT token.
+- **GET `/availability`**: Check seat availability between `source` and `destination`. Requires valid JWT token. -->
