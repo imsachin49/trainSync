@@ -39,7 +39,7 @@ const register = asyncHandler(async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { username,email, password } = req.body;
+    const { email, password } = req.body;
     
     // Get user
     const result = await db.query(

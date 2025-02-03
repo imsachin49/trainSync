@@ -70,7 +70,7 @@ npm start
 - **Body (Required)**:
   ```json
   {
-    "username": "john_doe",       // Required
+    "email": "john.doe@example.com",       // Required
     "password": "securepassword123" // Required
   }
   ```
